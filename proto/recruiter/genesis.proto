@@ -1,0 +1,18 @@
+syntax = "proto3";
+package mohammadrezatorkaman.wework.recruiter;
+
+import "gogoproto/gogo.proto";
+import "recruiter/params.proto";
+import "recruiter/job.proto";
+// this line is used by starport scaffolding # genesis/proto/import
+
+option go_package = "github.com/mohammadreza-torkaman/wework/x/recruiter/types";
+
+// GenesisState defines the recruiter module's genesis state.
+message GenesisState {
+  Params params = 1 [(gogoproto.nullable) = false];
+  
+  repeated Job jobList = 2 [(gogoproto.nullable) = false];
+  uint64 jobCount = 3;
+  // this line is used by starport scaffolding # genesis/proto/state
+}

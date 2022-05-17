@@ -1,0 +1,58 @@
+syntax = "proto3";
+package mohammadrezatorkaman.wework.recruiter;
+
+import "gogoproto/gogo.proto";
+import "google/api/annotations.proto";
+import "cosmos/base/query/v1beta1/pagination.proto";
+import "recruiter/params.proto";
+import "recruiter/job.proto";
+// this line is used by starport scaffolding # 1
+
+option go_package = "github.com/mohammadreza-torkaman/wework/x/recruiter/types";
+
+// Query defines the gRPC querier service.
+service Query {
+  // Parameters queries the parameters of the module.
+  rpc Params(QueryParamsRequest) returns (QueryParamsResponse) {
+    option (google.api.http).get = "/mohammadrezatorkaman/wework/recruiter/params";
+  }
+  // Queries a Job by id.
+	rpc Job(QueryGetJobRequest) returns (QueryGetJobResponse) {
+		option (google.api.http).get = "/mohammadreza-torkaman/wework/recruiter/job/{id}";
+	}
+
+	// Queries a list of Job items.
+	rpc JobAll(QueryAllJobRequest) returns (QueryAllJobResponse) {
+		option (google.api.http).get = "/mohammadreza-torkaman/wework/recruiter/job";
+	}
+
+// this line is used by starport scaffolding # 2
+}
+
+// QueryParamsRequest is request type for the Query/Params RPC method.
+message QueryParamsRequest {}
+
+// QueryParamsResponse is response type for the Query/Params RPC method.
+message QueryParamsResponse {
+  // params holds all the parameters of this module.
+  Params params = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryGetJobRequest {
+	uint64 id = 1;
+}
+
+message QueryGetJobResponse {
+	Job Job = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryAllJobRequest {
+	cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllJobResponse {
+	repeated Job Job = 1 [(gogoproto.nullable) = false];
+	cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+// this line is used by starport scaffolding # 3

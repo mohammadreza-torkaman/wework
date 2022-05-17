@@ -1,0 +1,19 @@
+syntax = "proto3";
+package mohammadrezatorkaman.wework.recruiter;
+
+option go_package = "github.com/mohammadreza-torkaman/wework/x/recruiter/types";
+
+message Job {
+  uint64 id = 1;
+  string title = 2; 
+  string description = 3; 
+  repeated string tags = 4;
+  string postDeadline = 5; 
+  string jobDeadline = 6; 
+  string maxPrice = 7; 
+  string location = 8; 
+  uint64 jobType = 9; 
+  string status = 10; 
+  string contractor = 11; 
+  
+}
