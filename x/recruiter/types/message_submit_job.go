@@ -9,7 +9,7 @@ const TypeMsgSubmitJob = "submit_job"
 
 var _ sdk.Msg = &MsgSubmitJob{}
 
-func NewMsgSubmitJob(creator string, title string, description string, tags string, postDeadline string, jobDeadline string, maxPrice string, location string, jobtype uint64) *MsgSubmitJob {
+func NewMsgSubmitJob(creator string, title string, description string, tags []string, postDeadline string, jobDeadline string, maxPrice string, location string, jobtype uint64) *MsgSubmitJob {
 	return &MsgSubmitJob{
 		Creator:      creator,
 		Title:        title,
@@ -19,7 +19,7 @@ func NewMsgSubmitJob(creator string, title string, description string, tags stri
 		JobDeadline:  jobDeadline,
 		MaxPrice:     maxPrice,
 		Location:     location,
-		Jobtype:      jobtype,
+		JobType:      jobtype,
 	}
 }
 

@@ -18,7 +18,7 @@ export interface RecruiterJob {
   id?: string;
   title?: string;
   description?: string;
-  tags?: string;
+  tags?: string[];
   postDeadline?: string;
   jobDeadline?: string;
   maxPrice?: string;

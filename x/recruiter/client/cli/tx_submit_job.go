@@ -2,6 +2,7 @@ package cli
 
 import (
 	"strconv"
+	"strings"
 
 	"github.com/cosmos/cosmos-sdk/client"
 	"github.com/cosmos/cosmos-sdk/client/flags"
@@ -15,18 +16,18 @@ var _ = strconv.Itoa(0)
 
 func CmdSubmitJob() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "submit-job [title] [description] [tags] [post-deadline] [job-deadline] [max-price] [location] [jobtype]",
+		Use:   "submit-job [title] [description] [tags (separate tags with \\\",\\\" if it's more than one)\" ] [post-deadline] [job-deadline] [max-price] [location] [jobType] ",
 		Short: "Broadcast message submit-job",
 		Args:  cobra.ExactArgs(8),
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
 			argTitle := args[0]
 			argDescription := args[1]
-			argTags := args[2]
+			argTags := strings.Split(args[2], ",")
 			argPostDeadline := args[3]
 			argJobDeadline := args[4]
 			argMaxPrice := args[5]
 			argLocation := args[6]
-			argJobtype, err := cast.ToUint64E(args[7])
+			argJobType, err := cast.ToUint64E(args[7])
 			if err != nil {
 				return err
 			}
@@ -45,7 +46,7 @@ func CmdSubmitJob() *cobra.Command {
 				argJobDeadline,
 				argMaxPrice,
 				argLocation,
-				argJobtype,
+				argJobType,
 			)
 			if err := msg.ValidateBasic(); err != nil {
 				return err

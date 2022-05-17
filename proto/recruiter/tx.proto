@@ -15,12 +15,12 @@ message MsgSubmitJob {
   string creator = 1;
   string title = 2;
   string description = 3;
-  string tags = 4;
+  repeated string tags = 4;
   string postDeadline = 5;
   string jobDeadline = 6;
   string maxPrice = 7;
   string location = 8;
-  uint64 jobtype = 9;
+  uint64 jobType = 9;
 }
 
 message MsgSubmitJobResponse {

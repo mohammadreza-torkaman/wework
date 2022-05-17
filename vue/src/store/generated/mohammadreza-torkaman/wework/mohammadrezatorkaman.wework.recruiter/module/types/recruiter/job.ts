@@ -8,7 +8,7 @@ export interface Job {
   id: number;
   title: string;
   description: string;
-  tags: string;
+  tags: string[];
   postDeadline: string;
   jobDeadline: string;
   maxPrice: string;
@@ -43,8 +43,8 @@ export const Job = {
     if (message.description !== "") {
       writer.uint32(26).string(message.description);
     }
-    if (message.tags !== "") {
-      writer.uint32(34).string(message.tags);
+    for (const v of message.tags) {
+      writer.uint32(34).string(v!);
     }
     if (message.postDeadline !== "") {
       writer.uint32(42).string(message.postDeadline);
@@ -74,6 +74,7 @@ export const Job = {
     const reader = input instanceof Uint8Array ? new Reader(input) : input;
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = { ...baseJob } as Job;
+    message.tags = [];
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
@@ -87,7 +88,7 @@ export const Job = {
           message.description = reader.string();
           break;
         case 4:
-          message.tags = reader.string();
+          message.tags.push(reader.string());
           break;
         case 5:
           message.postDeadline = reader.string();
@@ -120,6 +121,7 @@ export const Job = {
 
   fromJSON(object: any): Job {
     const message = { ...baseJob } as Job;
+    message.tags = [];
     if (object.id !== undefined && object.id !== null) {
       message.id = Number(object.id);
     } else {
@@ -136,9 +138,9 @@ export const Job = {
       message.description = "";
     }
     if (object.tags !== undefined && object.tags !== null) {
-      message.tags = String(object.tags);
-    } else {
-      message.tags = "";
+      for (const e of object.tags) {
+        message.tags.push(String(e));
+      }
     }
     if (object.postDeadline !== undefined && object.postDeadline !== null) {
       message.postDeadline = String(object.postDeadline);
@@ -184,7 +186,11 @@ export const Job = {
     message.title !== undefined && (obj.title = message.title);
     message.description !== undefined &&
       (obj.description = message.description);
-    message.tags !== undefined && (obj.tags = message.tags);
+    if (message.tags) {
+      obj.tags = message.tags.map((e) => e);
+    } else {
+      obj.tags = [];
+    }
     message.postDeadline !== undefined &&
       (obj.postDeadline = message.postDeadline);
     message.jobDeadline !== undefined &&
@@ -199,6 +205,7 @@ export const Job = {
 
   fromPartial(object: DeepPartial<Job>): Job {
     const message = { ...baseJob } as Job;
+    message.tags = [];
     if (object.id !== undefined && object.id !== null) {
       message.id = object.id;
     } else {
@@ -215,9 +222,9 @@ export const Job = {
       message.description = "";
     }
     if (object.tags !== undefined && object.tags !== null) {
-      message.tags = object.tags;
-    } else {
-      message.tags = "";
+      for (const e of object.tags) {
+        message.tags.push(e);
+      }
     }
     if (object.postDeadline !== undefined && object.postDeadline !== null) {
       message.postDeadline = object.postDeadline;

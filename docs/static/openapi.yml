@@ -28097,7 +28097,9 @@ paths:
                     description:
                       type: string
                     tags:
-                      type: string
+                      type: array
+                      items:
+                        type: string
                     postDeadline:
                       type: string
                     jobDeadline:
@@ -28238,7 +28240,9 @@ paths:
                   description:
                     type: string
                   tags:
-                    type: string
+                    type: array
+                    items:
+                      type: string
                   postDeadline:
                     type: string
                   jobDeadline:
@@ -48501,7 +48505,9 @@ definitions:
       description:
         type: string
       tags:
-        type: string
+        type: array
+        items:
+          type: string
       postDeadline:
         type: string
       jobDeadline:
@@ -48538,7 +48544,9 @@ definitions:
             description:
               type: string
             tags:
-              type: string
+              type: array
+              items:
+                type: string
             postDeadline:
               type: string
             jobDeadline:
@@ -48593,7 +48601,9 @@ definitions:
           description:
             type: string
           tags:
-            type: string
+            type: array
+            items:
+              type: string
           postDeadline:
             type: string
           jobDeadline:

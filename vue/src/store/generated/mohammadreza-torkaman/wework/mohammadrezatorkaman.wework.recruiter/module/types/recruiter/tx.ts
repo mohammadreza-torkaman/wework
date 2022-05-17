@@ -8,12 +8,12 @@ export interface MsgSubmitJob {
   creator: string;
   title: string;
   description: string;
-  tags: string;
+  tags: string[];
   postDeadline: string;
   jobDeadline: string;
   maxPrice: string;
   location: string;
-  jobtype: number;
+  jobType: number;
 }
 
 export interface MsgSubmitJobResponse {}
@@ -27,7 +27,7 @@ const baseMsgSubmitJob: object = {
   jobDeadline: "",
   maxPrice: "",
   location: "",
-  jobtype: 0,
+  jobType: 0,
 };
 
 export const MsgSubmitJob = {
@@ -41,8 +41,8 @@ export const MsgSubmitJob = {
     if (message.description !== "") {
       writer.uint32(26).string(message.description);
     }
-    if (message.tags !== "") {
-      writer.uint32(34).string(message.tags);
+    for (const v of message.tags) {
+      writer.uint32(34).string(v!);
     }
     if (message.postDeadline !== "") {
       writer.uint32(42).string(message.postDeadline);
@@ -56,8 +56,8 @@ export const MsgSubmitJob = {
     if (message.location !== "") {
       writer.uint32(66).string(message.location);
     }
-    if (message.jobtype !== 0) {
-      writer.uint32(72).uint64(message.jobtype);
+    if (message.jobType !== 0) {
+      writer.uint32(72).uint64(message.jobType);
     }
     return writer;
   },
@@ -66,6 +66,7 @@ export const MsgSubmitJob = {
     const reader = input instanceof Uint8Array ? new Reader(input) : input;
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = { ...baseMsgSubmitJob } as MsgSubmitJob;
+    message.tags = [];
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
@@ -79,7 +80,7 @@ export const MsgSubmitJob = {
           message.description = reader.string();
           break;
         case 4:
-          message.tags = reader.string();
+          message.tags.push(reader.string());
           break;
         case 5:
           message.postDeadline = reader.string();
@@ -94,7 +95,7 @@ export const MsgSubmitJob = {
           message.location = reader.string();
           break;
         case 9:
-          message.jobtype = longToNumber(reader.uint64() as Long);
+          message.jobType = longToNumber(reader.uint64() as Long);
           break;
         default:
           reader.skipType(tag & 7);
@@ -106,6 +107,7 @@ export const MsgSubmitJob = {
 
   fromJSON(object: any): MsgSubmitJob {
     const message = { ...baseMsgSubmitJob } as MsgSubmitJob;
+    message.tags = [];
     if (object.creator !== undefined && object.creator !== null) {
       message.creator = String(object.creator);
     } else {
@@ -122,9 +124,9 @@ export const MsgSubmitJob = {
       message.description = "";
     }
     if (object.tags !== undefined && object.tags !== null) {
-      message.tags = String(object.tags);
-    } else {
-      message.tags = "";
+      for (const e of object.tags) {
+        message.tags.push(String(e));
+      }
     }
     if (object.postDeadline !== undefined && object.postDeadline !== null) {
       message.postDeadline = String(object.postDeadline);
@@ -146,10 +148,10 @@ export const MsgSubmitJob = {
     } else {
       message.location = "";
     }
-    if (object.jobtype !== undefined && object.jobtype !== null) {
-      message.jobtype = Number(object.jobtype);
+    if (object.jobType !== undefined && object.jobType !== null) {
+      message.jobType = Number(object.jobType);
     } else {
-      message.jobtype = 0;
+      message.jobType = 0;
     }
     return message;
   },
@@ -160,19 +162,24 @@ export const MsgSubmitJob = {
     message.title !== undefined && (obj.title = message.title);
     message.description !== undefined &&
       (obj.description = message.description);
-    message.tags !== undefined && (obj.tags = message.tags);
+    if (message.tags) {
+      obj.tags = message.tags.map((e) => e);
+    } else {
+      obj.tags = [];
+    }
     message.postDeadline !== undefined &&
       (obj.postDeadline = message.postDeadline);
     message.jobDeadline !== undefined &&
       (obj.jobDeadline = message.jobDeadline);
     message.maxPrice !== undefined && (obj.maxPrice = message.maxPrice);
     message.location !== undefined && (obj.location = message.location);
-    message.jobtype !== undefined && (obj.jobtype = message.jobtype);
+    message.jobType !== undefined && (obj.jobType = message.jobType);
     return obj;
   },
 
   fromPartial(object: DeepPartial<MsgSubmitJob>): MsgSubmitJob {
     const message = { ...baseMsgSubmitJob } as MsgSubmitJob;
+    message.tags = [];
     if (object.creator !== undefined && object.creator !== null) {
       message.creator = object.creator;
     } else {
@@ -189,9 +196,9 @@ export const MsgSubmitJob = {
       message.description = "";
     }
     if (object.tags !== undefined && object.tags !== null) {
-      message.tags = object.tags;
-    } else {
-      message.tags = "";
+      for (const e of object.tags) {
+        message.tags.push(e);
+      }
     }
     if (object.postDeadline !== undefined && object.postDeadline !== null) {
       message.postDeadline = object.postDeadline;
@@ -213,10 +220,10 @@ export const MsgSubmitJob = {
     } else {
       message.location = "";
     }
-    if (object.jobtype !== undefined && object.jobtype !== null) {
-      message.jobtype = object.jobtype;
+    if (object.jobType !== undefined && object.jobType !== null) {
+      message.jobType = object.jobType;
     } else {
-      message.jobtype = 0;
+      message.jobType = 0;
     }
     return message;
   },
